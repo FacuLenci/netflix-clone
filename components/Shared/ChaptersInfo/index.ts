@@ -1,1 +1,1 @@
-import * from "./ChaptersInfo";
+export * from "./ChaptersInfo";

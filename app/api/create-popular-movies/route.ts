@@ -10,7 +10,7 @@ export async function POST(req:Request){
 
     try{
         const createdMovies = await Promise.all(movies.map(async (movie)=>{
-            const {id, title,movieVideo, trailerVideo, thumbnailUrl, genre, age, duration, ranking}=movie;
+            const {title,movieVideo, trailerVideo, thumbnailUrl, genre, age, duration, ranking}=movie;
 
             if(!title || !movieVideo || !trailerVideo || !thumbnailUrl || !genre || !age || !duration || !ranking){
                 throw new Error(`Missing data for movie: ${title}`)
@@ -18,7 +18,6 @@ export async function POST(req:Request){
 
             return await db.popularMovie.create({
                 data:{
-                    id,
                     title,
                     ranking,
                     thumbnailUrl,
