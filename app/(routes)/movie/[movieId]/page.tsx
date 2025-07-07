@@ -7,25 +7,35 @@ export default async function MovieIdPage({
     params,
 }: {
     params: {movieId: string};
-}) 
-{
+}) {
 
     const movieFilm = await db.movie.findUnique({
         where: {
             id: params.movieId,
         },
     });
+    
     const popularMovie = await db.popularMovie.findUnique({
         where: {
             id: params.movieId,
         },
     });
+    
     if (!movieFilm && !popularMovie) {
       redirect("/");  
     }
 
-    const currentMovie = movieFilm ? movieFilm.movieVideo : popularMovie ? popularMovie.movieVideo : "";
-    const titleMovie = movieFilm ? movieFilm.title : popularMovie ? popularMovie.title : "";
+    const currentMovie = movieFilm 
+    ? movieFilm.movieVideo 
+    : popularMovie 
+    ? popularMovie.movieVideo 
+    : "";
+
+    const titleMovie = movieFilm 
+    ? movieFilm.title 
+    : popularMovie 
+    ? popularMovie.title 
+    : "";
 
 
   return( 
