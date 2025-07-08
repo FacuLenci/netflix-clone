@@ -1,5 +1,5 @@
 import { UserNetflix } from "@prisma/client";
 
-export type NavbarProps = {
+export interface NavbarProps {
     users: UserNetflix[];
 };
