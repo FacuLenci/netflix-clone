@@ -14,52 +14,52 @@ datasource db {
 }
 
 model User {
-  id String @id @default(cuid())
-  name String?
-  email String @unique
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
   emailVerified DateTime?
-  image String?
-  password String?
+  image         String?
+  password      String?
 
   userNetflix UserNetflix[]
 
   createdAt DateTime @default(now())
-  updateAt DateTime @updatedAt
+  updateAt  DateTime @updatedAt
 }
 
-model UserNetflix{
-  id String @id @default(cuid())
+model UserNetflix {
+  id          String @id @default(cuid())
   profileName String
-  avatarUrl String
+  avatarUrl   String
 
   userId String
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   createAt DateTime @default(now())
   updateAt DateTime @updatedAt
 }
 
 model Movie {
-  id String @id @default(cuid())
-  title String
+  id           String   @id @default(cuid())
+  title        String
   thumbnailUrl String
-  genre String[]
-  age String
-  duration String
+  genre        String[]
+  age          String
+  duration     String
   trailerVideo String
-  movieVideo String
+  movieVideo   String
 
   createdAt DateTime @default(now())
 }
 
 model PopularMovie {
-  id String @id @default(cuid())
-  title String
+  id           String   @id @default(cuid())
+  title        String
   thumbnailUrl String
-  genre String []
-  age String
-  duration String
+  genre        String[]
+  age          String
+  duration     String
   trailerVideo String
-  movieVideo String
-  ranking Int
+  movieVideo   String
+  ranking      Int
 }

@@ -1,36 +1,38 @@
-"use server"
+"use server";
 
-import { signIn } from "@/auth"
-import { signInSchema } from "@/lib/zod"
-import { AuthError } from "next-auth"
-import {z} from "zod"
+import { signIn } from "@/auth";
+import { signInSchema } from "@/lib/zod";
+import { AuthError } from "next-auth";
+import { z } from "zod";
 
-export const login = async (values: z.infer<typeof signInSchema>)=> {
-    const validatedFields = signInSchema.safeParse(values);
+export const login = async (values: z.infer<typeof signInSchema>) => {
+  const validatedFields = signInSchema.safeParse(values);
 
-    if (!validatedFields.success){
-        return {error: "Invalid fields!"};
+  if (!validatedFields.success) {
+    return { error: "Invalid fields!" };
+  }
+
+  const { email, password } = validatedFields.data;
+
+  try {
+    await signIn("credentials", {
+      email,
+      password,
+      redirect: false, // 👈 clave
+    });
+
+    return { success: true }; // 👈 CLAVE
+
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Invalid credentials" };
+        default:
+          return { error: "Something went wrong!" };
+      }
     }
 
-    const {email, password} = validatedFields.data;
-
-    try {
-        await signIn("credentials", {
-            email,
-            password,
-            redirectTo: "/profiles",
-        })
-    } catch (error){
-        if (error instanceof AuthError)
-        {
-            switch (error.type)
-            {
-                case "CredentialsSignin":
-                    return {error:"Invalid credentials"};
-
-                default:
-                    return {error:"Something went wrong!"};
-            }
-        }
-    }    
+    return { error: "Something went wrong!" };
+  }
 };
